@@ -30,6 +30,7 @@ def launch_game(diff):
     for _ in range(1, diff):
         Command(map_size)
         map_size += 1
+        
     # Quiz Time
     print(os.linesep)
     print("Your path is blocked by a stone guardian. It will only let you leave if you answer these questions.")
@@ -70,6 +71,7 @@ def launch_game(diff):
     if "Y" in play_again:
         print("\nYou enter the dungeon depths once more.")
         print("\nLoading the Game Pieces...")
+        
         NextLevel(map_size).reset_stats()
         NextLevel(map_size).clear_map()
         Adventurer.effect["Damage"] = 0
@@ -77,6 +79,7 @@ def launch_game(diff):
         DungeonMap.steps = 0
         DisplayMap.defeated = 0
         Adventurer.score = 100
+        
         Difficulty()
         launch_game(Difficulty.levels)
     elif "N" in play_again:
