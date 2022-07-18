@@ -30,7 +30,7 @@ class SetFlags(Adventurer):
         if self.moves_left <= 0:
             GameOver(map_size).out_of_moves()
             return True
-        elif Adventurer.stats["Health"] == 0:
+        elif Adventurer.stats["Health"] <= 0:
             GameOver(map_size).out_of_health()
             return True
         else:
