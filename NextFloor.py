@@ -20,7 +20,7 @@ class MagicShop:
               f"\n4 = Nothing (Cost: Free)")
         self.shop = input("\nWhat would you like to buy? ")
         self.buy_item(self.shop)
-        if self.shop != 4:
+        if self.shop != "4":
             self.second = input("\nAnything else you want? ")
             self.buy_item(self.second)
         print("\n==================")
