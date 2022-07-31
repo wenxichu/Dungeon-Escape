@@ -92,4 +92,5 @@ Besides, you haven't eaten in days and you could use a good shower to clean off 
 Oh well, there's no point worrying about it now. You head towards the nearest tavern as the sunset draws close.''')
         sys.exit()
 
+        
 launch_game(Difficulty.levels)
