@@ -1,6 +1,5 @@
 import random
 import time
-from os import linesep
 from GenerateMap import DisplayMap
 
 
@@ -10,10 +9,14 @@ class DungeonMap(DisplayMap):
     # View Symbols
     @staticmethod
     def read_key():
-        symbols = ("A = Adventurer", "D = Door", "G = Gold", "K = Key", "S = Slime", "_ = Free Space")
-
-        for number, letter in enumerate(symbols, 1):
-            print(str(number) + ".", letter)
+        print('''
+1. A = Adventurer
+2. D = Door
+3. G = Gold
+4. K = Key
+5. S = Slime
+6. _ = Free Space
+''')
 
     # Movement
     @classmethod
@@ -25,11 +28,14 @@ class DungeonMap(DisplayMap):
         elif "R" in action:
             Adventurer.stats["Speed"] = 2
         elif "S" in action:
-            print(linesep)
-            time.sleep(1.0)
-            for key, value in Adventurer.stats.items():
-                print(key + " = " + str(value))
             print("\n==================")
+            time.sleep(1.0)
+            print(f"Health = {Adventurer.stats['Health']}\n"
+                  f"Gold = {Adventurer.stats['Gold']}\n"
+                  f"Sword = {Adventurer.stats['Sword']}\n"
+                  f"Shield = {Adventurer.stats['Shield']}\n"
+                  f"PowerUp = {Adventurer.stats['PowerUp']}\n"
+                  f"Speed = {Adventurer.stats['Speed']}")
         elif "K" in action:
             print("\n==================")
             DungeonMap.read_key()
