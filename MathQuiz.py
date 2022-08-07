@@ -35,10 +35,10 @@ class Quiz:
     def check_answer(player_answer, solution):
         if player_answer == str(solution):
             Adventurer.score += 100
-            print("\nThat is correct! The stone guardian nods its head.")
+            print("\nThat is correct! The skeleton guardian nods its head.")
             print("You have earned 100 points.\n")
         else:
-            print("\nThat is incorrect. The stone guardian shakes its head.")
+            print("\nThat is incorrect. The skeleton guardian shakes its head.")
             print(f"The right answer is \033[1m{solution}\033[0m\n")
 
 
