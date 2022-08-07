@@ -34,7 +34,7 @@ def launch_game(diff):
         
     # Quiz Time
     print(os.linesep)
-    print("Your path is blocked by a stone guardian. It will only let you leave if you answer these questions.")
+    print("Your path is blocked by a skeleton guardian. It will only let you leave if you answer these questions.")
 
     game_mode = Difficulty.levels
 
