@@ -90,6 +90,7 @@ didn't get to clear all the rooms, but why bother when you would get caught by t
 
 Besides, you haven't eaten in days and you could use a good shower to clean off that slime residue. 
 Oh well, there's no point worrying about it now. You head towards the nearest tavern as the sunset draws close.''')
+        print("\n==================")
         sys.exit()
 
         
