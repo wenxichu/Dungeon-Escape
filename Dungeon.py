@@ -14,6 +14,7 @@ class SetFlags(Adventurer):
         if Adventurer.stats["PowerUp"] == "Boots":
             self.movement()
 
+    # Might be a faster way
     def add_slimes(self):
         for v, h in zip(Slime.spawn_y, Slime.spawn_x):
             if not Adventurer.stats["Sword"]:
