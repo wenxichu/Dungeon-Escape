@@ -1,7 +1,7 @@
 from os import linesep
 import numpy
 import time
-from GenerateMap import Generator, Slime
+from GenerateMap import Generator
 from PlayerToken import Adventurer, DungeonMap
 from NextFloor import NextLevel, GameOver
 
@@ -14,11 +14,9 @@ class SetFlags(Adventurer):
         if Adventurer.stats["PowerUp"] == "Boots":
             self.movement()
 
-    # Might be a faster way
-    def add_slimes(self):
-        for v, h in zip(Slime.spawn_y, Slime.spawn_x):
-            if not Adventurer.stats["Sword"]:
-                self.dungeon[h][v] = "S"
+    def replace(self, loc_x, loc_y):
+        if Adventurer.stats["Sword"]:
+            self.dungeon[loc_y][loc_x] = "A"
 
     def hit_wall(self):
         print("\nYou've hit a wall. Ouch!")
@@ -52,6 +50,7 @@ class Command(SetFlags):
         super().__init__(size)
         x, y = (0, 0)
         a, b = numpy.where(self.dungeon == "D")
+        slime_token = numpy.where(self.dungeon == "S")
         del Generator.player_x[0]
         del Generator.player_y[0]
         self.__str__()
@@ -106,8 +105,9 @@ class Command(SetFlags):
                 print(self.dungeon)
                 continue
             # Replace Location
-            self.add_slimes()
+            self.dungeon[slime_token] = "S"
             self.dungeon[a[0]][b[0]] = "D"
+            self.replace(x, y)
             # Door Conditions
             if self.dungeon[y][x] == self.dungeon[a[0]][b[0]] and self.has_key:
                 self.dungeon[a[0]][b[0]] = "A"
