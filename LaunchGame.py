@@ -2,7 +2,7 @@ import os
 import sys
 import time
 from GenerateMap import Generator, DisplayMap
-from Dungeon import Command
+from Dungeon import Command, map_size
 from PlayerToken import Adventurer, Difficulty, DungeonMap
 from NextFloor import NextLevel, MagicShop, GameOver
 from MathQuiz import quiz_easy, quiz_normal, quiz_hard, take_quiz
@@ -24,13 +24,12 @@ Difficulty()
 print("\n==================")
 
 
-def launch_game(diff):
-    map_size = 3
+def launch_game(diff, get_size):
 
     # Run the Game
     for _ in range(1, diff):
-        Command(map_size)
-        map_size += 1
+        Command(get_size)
+        get_size += 1
         
     # Quiz Time
     print(os.linesep)
@@ -82,7 +81,7 @@ def launch_game(diff):
         Adventurer.score = 100
         
         Difficulty()
-        launch_game(Difficulty.levels)
+        launch_game(Difficulty.levels, map_size)
     elif "N" in play_again:
         print('''
 You decide it's not worth the trouble to go back down again. Sure you might've missed a few treasures and 
@@ -94,4 +93,4 @@ Oh well, there's no point worrying about it now. You head towards the nearest ta
         sys.exit()
 
         
-launch_game(Difficulty.levels)
+launch_game(Difficulty.levels, map_size)
