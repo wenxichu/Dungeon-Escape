@@ -14,9 +14,11 @@ class SetFlags(Adventurer):
         if Adventurer.stats["PowerUp"] == "Boots":
             self.movement()
 
-    def replace(self, loc_x, loc_y):
+    def replace(self, loc_x, loc_y, loc_s):
         if Adventurer.stats["Sword"]:
             self.dungeon[loc_y][loc_x] = "A"
+        else:
+            self.dungeon[loc_s] = "S"
 
     def hit_wall(self):
         print("\nYou've hit a wall. Ouch!")
@@ -105,9 +107,8 @@ class Command(SetFlags):
                 print(self.dungeon)
                 continue
             # Replace Location
-            self.dungeon[slime_token] = "S"
             self.dungeon[a[0]][b[0]] = "D"
-            self.replace(x, y)
+            self.replace(x, y, slime_token)
             # Door Conditions
             if self.dungeon[y][x] == self.dungeon[a[0]][b[0]] and self.has_key:
                 self.dungeon[a[0]][b[0]] = "A"
