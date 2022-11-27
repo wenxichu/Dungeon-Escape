@@ -1,6 +1,4 @@
-import sys
 import time
-import os
 from PlayerToken import Adventurer, Difficulty, DungeonMap
 from GenerateMap import Treasure, Slime, DoorKey, DisplayMap
 
@@ -76,7 +74,7 @@ class NextLevel(Adventurer):
         super().__init__(size)
 
     def load(self):
-        print(os.linesep + "You manage to reach the exit...but you haven't escaped yet.")
+        print("\nYou manage to reach the exit...but you haven't escaped yet.")
         print("\nYour status ailments have worn off.")
         time.sleep(2.0)
         self.reset_stats()
@@ -90,6 +88,7 @@ class NextLevel(Adventurer):
         Treasure.index = 0
         Slime.index = 0
         DoorKey.index = 0
+
         # Reset Grid
         Treasure.gold_x.clear()
         Treasure.gold_y.clear()
@@ -112,20 +111,18 @@ class GameOver(Adventurer):
         print("\nGAME OVER: You have no more moves left.")
         print("You are too exhausted to keep going.")
         self.final_score(Difficulty.levels - Difficulty.remaining)
-        self.__str__()
 
     def out_of_health(self):
         # Health is 0
         print("\nGAME OVER: You ran out of health.")
         print("Your consciousness gradually slips away.")
         self.final_score(Difficulty.levels - Difficulty.remaining)
-        self.__str__()
 
     def __str__(self):
         print("\nThis is your new home now. You sit next to the green slimes.")
         print("The spooky skeletons feed you a few scraps out of pity...")
         print("\n==================")
-        sys.exit()
+        quit()
 
     # Get Score
     def final_score(self, levels):
@@ -140,3 +137,4 @@ class GameOver(Adventurer):
         Adventurer.score += int(levels-1) * 50
         print(f"Levels Completed: {levels-1}")
         print("\nYour final score is: " + str(Adventurer.score))
+
