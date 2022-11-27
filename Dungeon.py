@@ -1,4 +1,3 @@
-from os import linesep
 import numpy
 import time
 from GenerateMap import Generator
@@ -9,21 +8,22 @@ map_size = 3
 
 
 class SetFlags(Adventurer):
+    game_ended = "No"
 
     def power_up(self):
         if Adventurer.stats["PowerUp"] == "Boots":
             self.movement()
 
-    def replace(self, loc_x, loc_y, loc_s):
+    def replace(self, loc_x, loc_y, slime):
         if Adventurer.stats["Sword"]:
             self.dungeon[loc_y][loc_x] = "A"
         else:
-            self.dungeon[loc_s] = "S"
+            self.dungeon[slime] = "S"
 
     def hit_wall(self):
         print("\nYou've hit a wall. Ouch!")
         self.moves_left -= 1
-        print(f"Moves Left: {self.moves_left}" + linesep)
+        print(f"Moves Left: {self.moves_left}\n")
         Adventurer.stats["Health"] -= 1
         print(self.dungeon)
 
@@ -40,7 +40,7 @@ class SetFlags(Adventurer):
 
     @classmethod
     def level_complete(cls):
-        print("\nWell done, you've made it to the end!" + linesep)
+        print("\nWell done, you've made it to the end!\n")
         print("Steps Taken: " + str(DungeonMap.steps))
         NextLevel(map_size).load()
 
@@ -77,6 +77,7 @@ class Command(SetFlags):
                 self.dungeon[y][x] = "_"
                 speed = Adventurer.stats["Speed"]
 
+                # Direction
                 if self.move == "L" and x - speed >= 0:
                     x -= speed
                 elif self.move == "R" and x + speed <= self.size - 1:
@@ -91,6 +92,7 @@ class Command(SetFlags):
                     continue
                 # Game Over?
                 if self.end_game():
+                    SetFlags.game_ended = "Yes"
                     break
                 # Block Types
                 self.mine_gold(self.dungeon[y][x])
@@ -102,7 +104,7 @@ class Command(SetFlags):
                 Generator.player_y.append(y)
             else:
                 # Invalid Moves
-                print("\nError: Please try again." + linesep)
+                print("\nError: Please try again.\n")
                 self.dungeon[y][x] = "A"
                 print(self.dungeon)
                 continue
@@ -117,7 +119,8 @@ class Command(SetFlags):
             elif self.dungeon[y][x] == self.dungeon[a[0]][b[0]] and not self.has_key:
                 print("\nThe door is locked. Where is the key?")
             # Dungeon Output
-            print(linesep + f"Moves Left: \033[1m{self.moves_left}\033[0m")
+            print(f"\nMoves Left: \033[1m{self.moves_left}\033[0m")
             print("You are here:\n")
             print(self.dungeon)
             self.get_boots()
+
