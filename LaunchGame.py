@@ -1,8 +1,6 @@
-import os
-import sys
 import time
 from GenerateMap import Generator, DisplayMap
-from Dungeon import Command, map_size
+from Dungeon import Command, map_size, SetFlags
 from PlayerToken import Adventurer, Difficulty, DungeonMap
 from NextFloor import NextLevel, MagicShop, GameOver
 from MathQuiz import quiz_easy, quiz_normal, quiz_hard, take_quiz
@@ -12,7 +10,7 @@ print("A Simple Dungeon Crawler")
 print("========================")
 
 # Intro Text
-print(os.linesep + "== How to Play ==")
+print("\n== How to Play ==")
 print('''
 In this game, a horde of undead has locked your adventurer inside a dungeon with many floors.
 Your goal is to grab the key, dig for gold, avoid the slimes, and reach the end of each room.
@@ -24,16 +22,54 @@ Difficulty()
 print("\n==================")
 
 
+def cont_game(answer):
+    if "Y" in answer:
+        print("\nYou enter the dungeon depths once more.")
+        print("\nLoading the Game Pieces...")
+
+        NextLevel(map_size).reset_stats()
+        NextLevel(map_size).clear_map()
+        Adventurer.effect["Damage"] = 0
+        Adventurer.effect["Coins"] = 0
+        DungeonMap.steps = 0
+        DisplayMap.defeated = 0
+        Adventurer.score = 100
+
+        Difficulty()
+        launch_game(Difficulty.levels, map_size)
+    elif "N" in answer:
+        if SetFlags.game_ended == "Yes":
+            GameOver(map_size).__str__()
+        print('''
+    You decide it's not worth the trouble to go back down again. Sure you might've missed a few treasures and 
+    didn't get to clear all the rooms, but why bother when you would get caught by the skeleton guards anyway? 
+
+    Besides, you haven't eaten in days and you could use a good shower to clean off that slime residue. 
+    Oh well, there's no point worrying about it now. You head towards the nearest tavern as the sunset draws close.''')
+
+
+def helper_fcn():
+    options = "Yes_No"
+    play_again = input("\nPlay another game? (Y = Yes/N = No) ").upper()
+
+    while options.find(play_again) == -1:
+        print("\nError: Invalid Input.")
+        play_again = input("\nPlay another game? (Y = Yes/N = No) ").upper()
+
+    return play_again
+
+
 def launch_game(diff, get_size):
 
     # Run the Game
     for _ in range(1, diff):
         Command(get_size)
+        if SetFlags.game_ended == "Yes":
+            cont_game(helper_fcn())
         get_size += 1
-        
+
     # Quiz Time
-    print(os.linesep)
-    print("Your path is blocked by a skeleton guardian. It will only let you leave if you answer these questions.")
+    print("\nYour path is blocked by a stone guardian. It will only let you leave if you answer these questions.")
 
     game_mode = Difficulty.levels
 
@@ -49,8 +85,8 @@ def launch_game(diff, get_size):
 
     # Player Coordinates
     print("\nCoordinates Traveled:")
-    p = set(zip(Generator.player_x, Generator.player_y))
-    print(p)
+    path = set(zip(Generator.player_x, Generator.player_y))
+    print(path)
     Generator.player_x.clear()
     Generator.player_y.clear()
 
@@ -61,36 +97,9 @@ def launch_game(diff, get_size):
 
     # Continue?
     GameOver(map_size).final_score(diff)
-    options = "Yes_No"
-    play_again = input("\nPlay another game? (Y = Yes/N = No) ").upper()
+    cont_game(helper_fcn())
+    print("\n==================")
+    quit()
 
-    while options.find(play_again) == -1:
-        print("\nError: Invalid Input.")
-        play_again = input("\nPlay another game? (Y = Yes/N = No) ").upper()
 
-    if "Y" in play_again:
-        print("\nYou enter the dungeon depths once more.")
-        print("\nLoading the Game Pieces...")
-        
-        NextLevel(map_size).reset_stats()
-        NextLevel(map_size).clear_map()
-        Adventurer.effect["Damage"] = 0
-        Adventurer.effect["Coins"] = 0
-        DungeonMap.steps = 0
-        DisplayMap.defeated = 0
-        Adventurer.score = 100
-        
-        Difficulty()
-        launch_game(Difficulty.levels, map_size)
-    elif "N" in play_again:
-        print('''
-You decide it's not worth the trouble to go back down again. Sure you might've missed a few treasures and 
-didn't get to clear all the rooms, but why bother when you would get caught by the skeleton guards anyway? 
-
-Besides, you haven't eaten in days and you could use a good shower to clean off that slime residue. 
-Oh well, there's no point worrying about it now. You head towards the nearest tavern as the sunset draws close.''')
-        print("\n==================")
-        sys.exit()
-
-        
 launch_game(Difficulty.levels, map_size)
