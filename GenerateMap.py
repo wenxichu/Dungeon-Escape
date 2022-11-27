@@ -1,7 +1,6 @@
 import numpy
 import time
 import random
-from os import linesep
 
 
 class Generator:
@@ -116,12 +115,13 @@ class DisplayMap(DoorKey):
     def __str__(self):
         time.sleep(1.5)
         if self.size == 3:
-            print(f"\nGenerating the dungeon map..." + linesep + f"\nMap Size: \033[1m{self.dimension}\033[0m"
+            print(f"\nGenerating the dungeon map...\n" + f"\nMap Size: \033[1m{self.dimension}\033[0m"
                   f"\nMoves Left: \033[1m{self.moves_left}\033[0m")
-            print(linesep + "Can you find a way out?\n")
+            print("\nCan you find a way out?\n")
             print(self.dungeon)
         elif self.size > 3:
-            print(linesep + "You hear happy slime noises nearby." + "\nLoading the next level...")
+            print("\nYou hear happy slime noises nearby." + "\nLoading the next level...")
             print(f"\nMap Size: \033[1m{self.dimension}\033[0m" + f"\nMoves Left: \033[1m{self.number_moves()}\033[0m")
-            print(linesep + "Can you find a way out?\n")
+            print("\nCan you find a way out?\n")
             print(self.dungeon)
+
