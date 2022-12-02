@@ -76,7 +76,6 @@ class Command(SetFlags):
             if self.move in direction:
                 self.dungeon[y][x] = "_"
                 speed = Adventurer.stats["Speed"]
-
                 # Direction
                 if self.move == "L" and x - speed >= 0:
                     x -= speed
