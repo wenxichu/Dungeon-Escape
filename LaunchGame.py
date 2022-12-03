@@ -24,6 +24,7 @@ print("\n==================")
 
 def cont_game(answer):
     if "Y" in answer:
+        SetFlags.game_ended = "No"
         print("\nYou enter the dungeon depths once more.")
         print("\nLoading the Game Pieces...")
 
